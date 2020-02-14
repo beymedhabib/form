@@ -46,7 +46,6 @@ export class FormComponent implements OnInit {
     if ((value || '').trim()) {
       this.skills.push(new FormControl(value));
       console.log(this.skills.value);
-      
     }
     if (input) {
       input.value = '';
@@ -88,7 +87,6 @@ export class FormComponent implements OnInit {
   }
   addexp() {
     this.experPro.push(this.exp());
-    console.log(this.experPro);
     }
     removexp(i) {
       this.experPro.removeAt(i);
