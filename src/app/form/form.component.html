@@ -1,0 +1,101 @@
+<form [formGroup]="profilForm">
+
+  <h1>Information Personnelle</h1>
+    <form formGroupName="personelInfo">
+            <table class="example-full-width" cellspacing="0"><tr>
+                <td><mat-form-field class="example-full-width">
+                    <mat-label>First name</mat-label>
+                    <input formControlName="firstName" matInput >
+                </mat-form-field>
+                <!-- <mat-error *ngIf="personelInfo.hasError('required','firstName')">First Name required</mat-error></td> -->
+                <td><mat-form-field class="example-full-width">
+                    <mat-label>Long Last Name That Will Be Truncated</mat-label>
+                    <input formControlName="lastName" matInput>
+                </mat-form-field>
+                <!-- <mat-error *ngIf="personelInfo.hasError('required','lastName')">Last Name required</mat-error></td> -->
+            </tr></table>
+            <p>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Address</mat-label>
+                  <textarea formControlName="Address" matInput placeholder="Ex. 100 Main St"></textarea>
+                </mat-form-field>
+                <!-- <mat-error *ngIf="personelInfo.hasError('required','Address')">Address Name required</mat-error> -->
+              </p>
+            
+              <table class="example-full-width" cellspacing="0"><tr>
+                <td><mat-form-field class="example-full-width">
+                  <mat-label>City</mat-label>
+                  <input formControlName="City" matInput placeholder="Ex. San Francisco">
+                </mat-form-field>
+                <!-- <mat-error *ngIf="personelInfo.hasError('required','City')">City Name required</mat-error></td> -->
+                <td><mat-form-field class="example-full-width">
+                  <mat-label>State</mat-label>
+                  <input formControlName="State" matInput placeholder="Ex. California">
+                </mat-form-field>
+                <!-- <mat-error *ngIf="personelInfo.hasError('required','State')">State Name required</mat-error></td> -->
+                <td><mat-form-field class="example-full-width">
+                  <mat-label>Postal Code</mat-label>
+                  <input type="number" formControlName="CodePostal" matInput #postalCode maxlength="4" placeholder="Ex. 8080" value="">
+                </mat-form-field>
+                <!-- <mat-error *ngIf="personelInfo.hasError('required','CodePostal')">Code Postal required</mat-error> -->
+                <!-- <mat-error *ngIf="registerForm.hasError('pattern('^\d{4}$')','CodePostal')">Code Postal 4 nember please</mat-error> -->
+              </td>
+              </tr></table>
+    </form>
+    <h1>Skills</h1>
+    <form formArrayName="skills">
+      <mat-form-field class="example-chip-list">
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip *ngFor="let skill of profilForm.get('skills').controls; let i=index" [selectable]="selectable"
+                   [removable]="removable" (removed)="remove(i)">
+            {{skill.value}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="New Skill..."
+                 [matChipInputFor]="chipList"
+                 aria-label="Number"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)"
+                 matInput
+           [matAutocomplete]="auto">
+           <!-- <button type="button" (click)="addSkill()">add</button> -->
+                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+        </mat-chip-list>
+      </mat-form-field>
+    </form>
+    <h1>Expérience Professionnelle</h1>
+    <form formArrayName="experPro">
+      <div *ngFor="let skill of profilForm.get('experPro').controls; let i=index">
+        <div [formGroupName]="i">
+        {{i+1}}
+        <mat-form-field class="example-full-width">
+          <mat-label>poste</mat-label>
+          <input formControlName="poste" matInput >
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>societé</mat-label>
+            <input formControlName="societé" matInput >
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Up day</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="upday">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Off day</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName="offday">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+          <button (click)="removexp(i)">Remove</button>
+        </div>
+        </div>
+          <button (click)="addexp()" mat-raised-button  color="primary" >ADD</button>
+    </form>
+</form>
